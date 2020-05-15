@@ -33,10 +33,6 @@ struct reg_AUTOR
 };
 
 
-
-
-
-
 void cadastrarAUTOR(){
 FILE *fpautor;
 struct reg_AUTOR NovoAutor;
@@ -86,6 +82,81 @@ struct reg_AUTOR ListAutor;
 }
 
 
+void cadastrarCATEGORIA(){
+FILE *fpcategoria;
+struct reg_CATEGORIA NovaCategoria;
+char opc;
+
+  //Solicita os dados
+  printf("\nDigite o codigo da categoria ");
+  fflush(stdin); scanf("%i",&NovaCategoria.codigo);
+  printf("Digite o nome da categoria (ex: Romance, Suspense, Ciencias");
+  fflush(stdin); gets(NovaCategoria.nome);
+
+  printf("\nGravar?(S/N) ");
+  fflush(stdin); scanf("%c",&opc);
+
+  if ((opc=='S')||(opc=='s')){
+    //Abrir o Arquivo
+    fpcategoria = fopen("categoria.dat","ab");
+    //Gravar
+    fwrite(&NovaCategoria,sizeof(NovaCategoria),1,fpcategoria);
+    //Fechar o Arquivo
+    fclose(fpcategoria);
+    printf("\nAutor cadastrado com sucesso");
+  }
+  else
+    printf("\nOperacao Cancelada!");
+}
+
+
+void listarCATEGORIA(){
+FILE *fpCATEGORIA;
+struct reg_CATEGORIA Categoria;
+
+  //Abrir o Arquivo
+  fpCATEGORIA = fopen("categoria.dat","rb");
+
+  //Ler cada registro e mostrar na tela
+  while (fread(&Categoria,sizeof(Categoria),1,fpCATEGORIA) ==1) {
+    printf("\n%3d %-30s", Categoria.codigo, Categoria.nome);
+  }
+
+  //Fechar o aquivo
+  fclose(fpCATEGORIA);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int main(){
 int op;
@@ -94,8 +165,10 @@ do{
   printf("\n\n::::::::::::::::: Livraria Saber :::::::::::::::::");
   printf("\n:: 1) Cadastrar autor                             ::");
   printf("\n:: 2) Listar autores                             ::");
-  printf("\n:: 0) Sair                                        ::");
-  printf("\n::                                                ::");
+  printf("\n:: 3) Cadastrar Categoria                        ::");
+  printf("\n:: 4) Listar Categoria                           ::");
+  printf("\n:: 0) Sair                                       ::");
+  printf("\n::                                               ::");
   printf("\n   Opcao-> ");
   fflush(stdin); scanf("%d",&op);
 
@@ -105,6 +178,12 @@ do{
     break;
     case 2:
     listarAUTOR();
+    break;
+    case 3:
+    cadastrarCATEGORIA();
+    break;
+    case 4:
+    listarCATEGORIA();
     break;
   }
 
